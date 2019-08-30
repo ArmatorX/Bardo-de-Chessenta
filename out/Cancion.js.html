@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Cancion.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Cancion.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const archivoDatos = require('../../config.json').carpetas.datos + "cancion.json";
+const Persistencia = require('./Persistencia.js');
+const p = new Persistencia();
+
+/**
+ * Clase que representa a una canción que será utilizada para ambientar la partida.
+ * @param {number} id - El número que identifica únicamente a la canción.
+ * @param {string} nombrePersonalizado - El nombre establecido por el usuario para la canción.
+ * @param {string} nombreOriginal - El nombre original de la canción.
+ * @param {string} origen - La OST a la que pertenece la canción, o en caso de no tener, el autor.
+ * @param {string[]} tags - Tags para obtener y clasificar mejor las canciones.
+ * @param {string} descripcion - Una breve descripción que indica para qué puede ser usada la canción.
+ * @param {string} usos - Breve ayuda visual para ver en qué momento usar la canción. Similar a la descripción pero más breve, y orientado a un uso más específico. Por ejemplo, música del villano.
+ * @param {number} prioridad - Ayuda visual. Dependiendo el número se asigna un color a la canción.
+ * @param {string} ubicacion - Dirección donde se encuentra el audio a reproducir. Puede ser una dirección de youtube o local.
+ * @param {boolean} esLocal - Indica si el audio a reproducir se encuentra almacenado de forma local, o en otro servidor.
+
+ */
+class Cancion {
+	constructor(nombrePersonalizado, ubicacion, esLocal, nombreOriginal, origen, tags, descripcion, usos, prioridad) {
+		this.id = undefined;
+		this.nombrePersonalizado = nombrePersonalizado;
+		this.nombreOriginal = nombreOriginal;
+		this.origen = origen; 
+		this.tags = tags;
+		this.descripcion = descripcion;
+		this.usos = usos;
+		this.prioridad = prioridad; 
+		this.ubicacion = ubicacion;
+		this.esLocal = esLocal;
+	}
+	
+	/**
+	 * Compara una instancia de un objeto {@link Cancion} con otra, sin tener en cuenta sus id, y devuelve si son iguales.
+	 * @param {Cancion} cancion - La canción con que se quiere comparar.
+	 * @returns {boolean} El resultado de la comparación.
+	 */
+	equals(cancion) {
+		if (this.nombrePersonalizado === cancion.nombrePersonalizado &amp;&amp; this.nombreOriginal === cancion.nombreOriginal &amp;&amp; this.origen === cancion.origen &amp;&amp; this.descripcion === cancion.descripcion &amp;&amp; this.usos === cancion.usos &amp;&amp; this.prioridad === cancion.prioridad &amp;&amp; this.ubicacion === cancion.ubicacion &amp;&amp; this.esLocal === cancion.esLocal) {
+			for (var i = 0; i &lt; cancion.tags.length; i ++) {
+				if (!(this.tags[i] === cancion.tags[i])) {
+					return false;
+				}
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+
+	/**
+	 * Compara una instancia de un objeto {@link Cancion} con otra, teniendo en cuenta sus id, y devuelve si son iguales.
+	 * @param {Cancion} cancion - La canción con que se quiere comparar.
+	 * @returns {boolean} El resultado de la comparación.
+	 */
+	strictEquals(cancion) {
+		if (this.id === cancion.id &amp;&amp; this.nombrePersonalizado === cancion.nombrePersonalizado &amp;&amp; this.nombreOriginal === cancion.nombreOriginal &amp;&amp; this.origen === cancion.origen &amp;&amp; this.descripcion === cancion.descripcion &amp;&amp; this.usos === cancion.usos &amp;&amp; this.prioridad === cancion.prioridad &amp;&amp; this.ubicacion === cancion.ubicacion &amp;&amp; this.esLocal === cancion.esLocal) {
+			for (var i = 0; i &lt; cancion.tags.length; i ++) {
+				if (!(this.tags[i] === cancion.tags[i])) {
+					return false;
+				}
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Convierte la instancia de la clase Canción en una cadena JSON y la guarda en el archivo cancion.json.
+	 */
+	async materializar() {
+		p.guardarObjetoEnArchivo(this, archivoDatos);
+	}
+	
+	/**
+	 * Obtiene los valores de un objeto almacenado en el archivo cancion.json, y los guarda en la instancia de la clase Cancion.
+	 * @param {number} idObjeto - El id que identifica al objeto en el archivo json.
+	 */
+	desmaterializar(idObjeto) {
+		var cancion = p.obtenerObjetoDesdeArchivo(idObjeto, archivoDatos);
+		
+		if (!cancion) {
+			// Setea todos los atributos en undefined para evitar que se siga usando el objeto cuando los datos no se puedan obtener. 
+			this.id = undefined;
+			this.nombrePersonalizado = undefined;
+			this.nombreOriginal = undefined;
+			this.origen = undefined; 
+			this.tags = undefined;
+			this.descripcion = undefined;
+			this.usos = undefined; 
+			this.prioridad = undefined; 
+			this.ubicacion = undefined;
+			this.esLocal = undefined;
+			
+			return;
+		}
+		
+		this.id = cancion.id;
+		this.nombrePersonalizado = cancion.nombrePersonalizado;
+		this.nombreOriginal = cancion.nombreOriginal;
+		this.origen = cancion.origen; 
+		this.tags = cancion.tags;
+		this.descripcion = cancion.descripcion;
+		this.usos = cancion.usos; 
+		this.prioridad = cancion.prioridad; 
+		this.ubicacion = cancion.ubicacion;
+		this.esLocal = cancion.esLocal;
+	}
+}
+
+module.exports = Cancion;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Cancion.html">Cancion</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Jul 28 2019 16:59:15 GMT-0300 (GMT-03:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
