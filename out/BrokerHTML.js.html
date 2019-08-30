@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: BrokerHTML.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: BrokerHTML.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const ModoFormulario = {
+	Consulta: 0,
+	Modificacion: 1,
+	Registro: 2 
+}
+
+/**
+ * Se encarga de convertir distintos tipos de objetos en un pedazo de código HTML.
+ */
+class BrokerHTML {
+	/**
+	 * Convierte un vector de cadenas, en una lista ordenada con formato html.
+	 * @param {string[]} lista - Lista de cadenas a convertir.
+	 * @returns {string} Lista ordenada html.
+	 */
+	crearListaOrdenada(lista) {
+		// TODO: Ver qué pasa si le paso una lista con un único elemento.
+		return `&lt;ol>&lt;li>${lista.join('&lt;/li>&lt;li>')}&lt;/li>&lt;/ol>`;
+	}
+	
+	/**
+	 * Convierte un vector de cadenas, en una lista no ordenada con formato html.
+	 * @param {string[]} lista - Lista de cadenas a convertir.
+	 * @returns {string} Lista no ordenada html.
+	 */
+	crearListaNoOrdenada(lista) {
+		// TODO: Ver qué pasa si le paso una lista con un único elemento.
+		return `&lt;ul>&lt;li>${lista.join('&lt;/li>&lt;li>')}&lt;/li>&lt;/ul>`;
+	}
+
+	/**
+	 * Crea un vínculo html a partir de un texto y una referencia.
+	 * @param {string} texto - El texto que se muestra.
+	 * @param {string} vinculo - La ruta o referencia del hipervínculo.
+	 * @returns {string} Vínculo html.
+	 */
+	crearVinculo(texto, vinculo) {
+		return `&lt;a href="${vinculo}">${texto}&lt;/a>`;
+	}
+	
+	/**
+	 * Crea una sección (&lt;div>) html a partir de un nombre de clase y el contenido que debe ir dentro.
+	 * @param {string} clase - El nombre de la clase.
+	 * @param {string} contenido - El contenido que irá dentro de la sección.
+	 * @returns {string} Sección html.
+	 */
+	crearSeccion(clase, contenido) {
+		return `&lt;div class="${clase}">${contenido}&lt;/div>`;
+	}
+	
+	/**
+	 * Crea un formulario básico para el registro, consulta y modificación de canciones.
+	 * @param {ModoFormulario} modo - El modo en que se crea el formulario.
+	 * @param {Cancion} [cancion] - La canción que se debe mostrar en el formulario (solo se usa en modo consulta y modificación).
+	 * @returns {string} Formulario html de canción.
+	 */
+	crearFormularioCancion(modo, cancion) {
+		// TODO: Esto tiene demasiada lógica encima.
+		// Objetos dinámicos del formulario.
+		// Opciones de los campos.
+		var readonly = '';
+		var disabled = '';
+		var checked = '';
+		
+		// Botón registrar.
+		var txtRegistrar = '';
+		var btnRegistrar = '';
+		
+		switch (modo) {
+			case ModoFormulario.Consulta:
+				if (cancion) {
+					if (cancion.esLocal) {
+						checked = ' checked';
+					} 
+					
+					// Id.
+					var lblId = `&lt;p>ID: `;
+					var txtId = `&lt;input type="text" name="id" value="${cancion.id}" readonly>&lt;/p>`;
+					
+					// Convierto la lista de tags en un string para mostrarla.
+					var strTags = cancion.tags.toString().replace(/[+]/g);
+					
+					readonly = ' readonly';
+					disabled = ' disabled';
+				} else {
+					console.error("Se llamó al método crearFormularioCancion del BrokerHTML en modo CONSULTA, pero no recibió una canción.");
+					return;
+				}
+				
+				break;
+			case ModoFormulario.Modificacion:
+				if (cancion) {
+					if (cancion.esLocal) {
+						checked = ' checked';
+					}
+					
+					// Id.
+					var lblId = `&lt;p>ID: `;
+					var txtId = `&lt;input type="text" name="id" value="${cancion.id}" readonly>&lt;/p>`;
+					
+					// Convierto la lista de tags en un string para mostrarla.
+					var strTags = cancion.tags.toString().replace(/[+]/g);
+					
+					txtRegistrar = 'Guardar cambios.';
+					btnRegistrar = `&lt;input type="submit" value="${txtRegistrar}"}>`;
+				} else {
+					console.error("Se llamó al método crearFormularioCancion del BrokerHTML en modo MODIFICACIÓN, pero no recibió una canción.");
+					return;
+				}
+				
+				break;
+			case ModoFormulario.Registro:
+				// Creamos un objeto canción con los datos que queremos mostrar en cada campo.
+				var cancion = {
+					nombrePersonalizado: 'Un nombre que me sirva para encontrar la canción en la partida.',
+					ubicacion: 'La ruta del archivo/URL de la canción.',
+					nombreOriginal: 'Nombre real de la canción.',
+					origen: 'OST/Autor de la canción.',
+					descripcion: 'Una descripción detallada de la canción y el sentimiento que transmite.',
+					usos: 'Usos determinados de la canción en partidas específicas.',
+					prioridad: '0'
+				}
+				
+				var strTags = 'Identificadores para encontrar una canción más rápido.';
+				
+				lblId = '';
+				txtId = '';
+				
+				txtRegistrar = 'Registrar.';
+				btnRegistrar = `&lt;input type="submit" value="${txtRegistrar}"}>`;
+				
+				break;
+		}
+		
+		// Objetos estáticos del formulario.
+		// Nombre.
+		var lblNombre = `&lt;p>Nombre personalizado:`;
+		var txtNombre = `&lt;input type="text" name="nombre" value="${cancion.nombrePersonalizado}" ${readonly}>&lt;/p>`;
+		
+		// Ubicación.
+		var lblUbicacion = `&lt;p>Ubicación:`;
+		var txtUbicacion = `&lt;input type="text" name="ubicacion" value="${cancion.ubicacion}" ${readonly}>&lt;/p>`;
+		
+		// Es local o url.
+		var chbEsLocal = `&lt;p>&lt;input type="checkbox" name="esLocal" value="true"${checked} ${disabled}>`;
+		var lblEsLocal = `Es una ruta local.&lt;/p>`;
+		
+		// Nombre original.
+		var lblNombreOriginal = `&lt;p>Nombre original:`;
+		var txtNombreOriginal = `&lt;input type="text" name="nombreOriginal" value="${cancion.nombreOriginal}" ${readonly}>&lt;/p>`;
+		
+		// Origen.
+		var lblOrigen = `&lt;p>Origen:`;
+		var txtOrigen = `&lt;input type="text" name="origen" value="${cancion.origen}" ${readonly}>&lt;/p>`;
+		
+		// Tags.
+		var lblTags = `&lt;p>Tags (separadas por comas):`;
+		var txtTags = `&lt;input type="text" name="tags" value="${strTags}" ${readonly}>&lt;/p>`;
+		
+		// Descripción.
+		var lblDescripcion = `&lt;p>Descripción:&lt;/p>`;
+		var txtDescripcion = `&lt;textarea name="descripcion" rows="50" cols="150" ${readonly}>${cancion.descripcion}&lt;/textarea>`;
+		
+		// Usos.
+		var lblUsos = `&lt;p>Usos:`;
+		var txtUsos = `&lt;input type="text" name="usos" value="${cancion.usos}" ${readonly}>&lt;/p>`;
+		
+		// Prioridad.
+		var lblPrioridad = `&lt;p>Prioridad:`;
+		var txtPrioridad = `&lt;input type="number" name="prioridad" value="${cancion.prioridad}" ${readonly}>&lt;/p>`;
+		
+		// Creación formulario.
+		var formulario = `&lt;form action="http://localhost:8080/registrar/procesarDatos/" method="post">
+				${lblId} ${txtId}
+				${lblNombre} ${txtNombre}
+				${lblUbicacion} ${txtUbicacion}
+				${chbEsLocal} ${lblEsLocal}
+				${lblNombreOriginal} ${txtNombreOriginal}
+				${lblOrigen} ${txtOrigen}
+				${lblTags} ${txtTags}
+				${lblDescripcion}
+				${txtDescripcion}
+				${lblUsos} ${txtUsos}
+				${lblPrioridad} ${txtPrioridad}
+				${btnRegistrar}
+			&lt;/form>`;
+			
+		return formulario;
+	}
+}
+
+module.exports = BrokerHTML;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Bot.html">Bot</a></li><li><a href="BrokerHTML.html">BrokerHTML</a></li><li><a href="Cancion.html">Cancion</a></li><li><a href="ControladorABMCancion.html">ControladorABMCancion</a></li><li><a href="ControladorReproductor.html">ControladorReproductor</a></li><li><a href="PantallaABMCancion.html">PantallaABMCancion</a></li><li><a href="PantallaReproductor.html">PantallaReproductor</a></li><li><a href="Persistencia.html">Persistencia</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Fri Aug 30 2019 12:04:26 GMT-0300 (GMT-03:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
