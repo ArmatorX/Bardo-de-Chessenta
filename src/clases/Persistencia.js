@@ -18,7 +18,7 @@ class Persistencia {
 	guardarObjetoEnArchivo() {
 		// Verificamos si ya existe el archivo, y si no lo creamos.
 		if (!fs.existsSync(this.archivoDatos)) {
-			console.log('El archivo "' + this.archivoDatos + '" no existe. Se creará a continuación.')
+			console.log('El archivo "' + this.archivoDatos + '" no existe. Se creará a continuación.');
 			fs.writeFileSync(this.archivoDatos, "[]");
 		}
 		
