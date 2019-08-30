@@ -1,0 +1,11 @@
+{
+	"bot": {
+		"voiceChannel": "",
+		"token": "",
+		"volumen": "0.05"
+	},
+	"carpetas": {
+		"musica": "./musica/",
+		"datos": "./datos/"
+	}
+}
