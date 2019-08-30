@@ -9,3 +9,21 @@ y abrimos el servidor con el archivo 'interfaz-http.js'. Esto se puede hacer con
 node interfaz-http.js
 
 Luego, abrimos el navegador y entramos a la siguiente url "http://localhost:8080/", y tendremos acceso a la GUI.
+
+De momento, los archivos y carpetas no se crean automáticamente, por lo que para poder usarlo, es necesario crear un archivo 'config.json':
+
+###########################
+{
+	"bot": {
+		"voiceChannel": "",
+		"token": "",
+		"volumen": "0.05"
+	},
+	"carpetas": {
+		"musica": "./musica/",
+		"datos": "./datos/"
+	}
+}
+###########################
+
+junto a dos carpetas, llamadas 'datos' y 'musica'.
