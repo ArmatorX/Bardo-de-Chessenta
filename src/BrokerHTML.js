@@ -170,20 +170,30 @@ class BrokerHTML {
 		var txtPrioridad = `<input type="number" name="prioridad" value="${cancion.prioridad}" ${readonly}></p>`;
 		
 		// Creación formulario.
-		var formulario = `<form action="http://localhost:8080/registrar/procesarDatos/" method="post">
-				${lblId} ${txtId}
-				${lblNombre} ${txtNombre}
-				${lblUbicacion} ${txtUbicacion}
-				${chbEsLocal} ${lblEsLocal}
-				${lblNombreOriginal} ${txtNombreOriginal}
-				${lblOrigen} ${txtOrigen}
-				${lblTags} ${txtTags}
-				${lblDescripcion}
-				${txtDescripcion}
-				${lblUsos} ${txtUsos}
-				${lblPrioridad} ${txtPrioridad}
-				${btnRegistrar}
-			</form>`;
+		var formulario = `
+			<!DOCTYPE html>
+			<html>
+				<head>
+					<meta charset="utf-8">
+				</head>
+				
+				<body>
+					<form action="http://localhost:8080/registrar/procesarDatos/" accept-charset="utf-8" method="post">
+						${lblId} ${txtId}
+						${lblNombre} ${txtNombre}
+						${lblUbicacion} ${txtUbicacion}
+						${chbEsLocal} ${lblEsLocal}
+						${lblNombreOriginal} ${txtNombreOriginal}
+						${lblOrigen} ${txtOrigen}
+						${lblTags} ${txtTags}
+						${lblDescripcion}
+						${txtDescripcion}
+						${lblUsos} ${txtUsos}
+						${lblPrioridad} ${txtPrioridad}
+						${btnRegistrar}
+					</form>
+				</body>
+			</html>`;
 			
 		return formulario;
 	}

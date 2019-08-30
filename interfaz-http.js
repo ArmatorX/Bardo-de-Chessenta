@@ -72,7 +72,7 @@ http.createServer(function (req, res) {
 	}
 	
 	// Creamos la página HTML, y la mostramos.
-	res.writeHead(200, {'Content-Type': 'text/html; charset=latin1'});
+	res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
 	
 	if (pantallaAMostrar == pantallas.Redireccionar) {
 		// Redireccionamos a la consulta de la canción ya creada.

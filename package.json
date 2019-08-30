@@ -1,6 +1,6 @@
 {
 	"name": "Bardo-de-Chessenta",
-	"version": "0.1.1",
+	"version": "1.0.0",
 	"description": "Aplicación web creada para hacer de interfaz gráfica para el manejo de un bot de música de Discord. Esta aplicación está orientada principalmente a la ambientación de partidas de rol.",
 	"main": "interfaz-http.js",
 	"author": "ArmatorX",
