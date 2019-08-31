@@ -6,13 +6,6 @@
 	"author": "ArmatorX",
 	"dependencies": {
 		"discord.js": "^11.5.1",
-		"peerDependencies": {
-			"bufferutil": ">=0.7.3",
-			"erlpack": ">=0.0.1",
-			"libsodium-wrappers": ">=0.7.3",
-			"node-opus": ">=0.2.7",
-			"sodium": ">=2.0.3"
-		},
 		"ffmpeg-binaries": "^4.0.0",
 		"opusscript": ">=0.0.7",
 		"package.json": "^2.0.1",
