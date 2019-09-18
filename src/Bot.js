@@ -21,10 +21,11 @@ client.on('message', async message => {
 	if (message.content.startsWith("!")) {
 		var cadenaPedido = message.content.substr(1);
 		
-		var re = new RegExp("[0-9]*d(4|6|8|10|12|20|100)(\\+[0-9]+|)");
+		var re = new RegExp("[0-9]*d[0-9]+(\\+[0-9]+||\\-[0-9]+)");
 		
 		if (re.test(cadenaPedido)) {
-			var pedido = cadenaPedido.split(/[d+]/);
+			cadenaPedido = cadenaPedido.replace("+-","-");
+			var pedido = cadenaPedido.split(/[d+-]/);
 			
 			if (pedido[0] == '') {
 				pedido[0] = 1;
@@ -34,36 +35,42 @@ client.on('message', async message => {
 			
 			pedido[1] = parseInt(pedido[1], 10);
 			
-			if (pedido[2] == undefined) {
-				pedido[2] = 0;
-			} else {
-				pedido[2] = parseInt(pedido[2], 10);
-			}
-			
-			var msj = "";
-			var total = 0;
-			for (var i = 0; i < pedido[0]; i++) {
-				var rDado = Math.floor(Math.random() * pedido[1]) + 1;
-				
-				total += rDado;
-				
-				if (i == pedido[0] - 1) {
-					msj += rDado;
+			if (pedido[1] == 4 || pedido[1] == 6 || pedido[1] == 8 || pedido[1] == 10 || pedido[1] == 12 || pedido[1] == 20 || pedido[1] == 100) {
+				if (pedido[2] == undefined) {
+					pedido[2] = 0;
+				} else if (cadenaPedido.includes("-")) {
+					pedido[2] = - pedido[2];
 				} else {
-					msj += rDado + " + ";
+					pedido[2] = parseInt(pedido[2], 10);
+				}
+				
+				if (pedido[2] <= 100) {
+					var msj = "";
+					var total = 0;
+					for (var i = 0; i < pedido[0]; i++) {
+						var rDado = Math.floor(Math.random() * pedido[1]) + 1;
+						
+						total += rDado;
+						
+						if (i == pedido[0] - 1) {
+							msj += rDado;
+						} else {
+							msj += rDado + " + ";
+						}
+					}
+					
+					if (!(pedido[0] == 1 && pedido[2] == 0)) {
+						if (pedido[2] == 0) {
+							msj += " = " + total;
+						} else {
+							total += pedido[2];
+							msj += " + [" + pedido[2] + "] = " + total;
+						}
+					}
+					
+					message.reply("```fix\n" + msj + "\n```");
 				}
 			}
-			
-			if (!(pedido[0] == 1 && pedido[2] == 0)) {
-				if (pedido[2] == 0) {
-					msj += " = " + total;
-				} else {
-					total += pedido[2];
-					msj += " + [" + pedido[2] + "] = " + total;
-				}
-			}
-			
-			message.reply("```fix\n" + msj + "\n```");			
 		}
 	}
 });
