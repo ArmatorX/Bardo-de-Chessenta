@@ -18,15 +18,55 @@ client.on("ready", () => {
 });
 
 client.on('message', async message => {
-	if (message.content.startsWith("!") {
-		var cantidad = message.content.substr(1,2);
-		var dado = message.content.substr(3,4);
+	if (message.content.startsWith("!")) {
+		var cadenaPedido = message.content.substr(1);
 		
-		for (var i = 0; i < catidad; i++) {
-			message.channel.send(Math.random() % dado + 1);
+		var re = new RegExp("[0-9]*d(4|6|8|10|12|20|100)(\\+[0-9]+|)");
+		
+		if (re.test(cadenaPedido)) {
+			var pedido = cadenaPedido.split(/[d+]/);
+			
+			if (pedido[0] == '') {
+				pedido[0] = 1;
+			} else {
+				pedido[0] = parseInt(pedido[0], 10);
+			}
+			
+			pedido[1] = parseInt(pedido[1], 10);
+			
+			if (pedido[2] == undefined) {
+				pedido[2] = 0;
+			} else {
+				pedido[2] = parseInt(pedido[2], 10);
+			}
+			
+			var msj = "";
+			var total = 0;
+			for (var i = 0; i < pedido[0]; i++) {
+				var rDado = Math.floor((Math.random() * (pedido[1] - 1)) + 1);
+				
+				total += rDado;
+				
+				if (i == pedido[0] - 1) {
+					msj += rDado;
+				} else {
+					msj += rDado + " + ";
+				}
+			}
+			
+			if (pedido[0] > 1) {
+				if (pedido[2] == 0) {
+					msj += " = " + total;
+				} else {
+					total += pedido[2];
+					msj += " + [" + pedido[2] + "] = " + total;
+				}
+			}
+			
+			message.channel.send("```fix\n" + msj + "\n```");			
 		}
 	}
-}
+});
 
 /**
  * Se encarga de gestionar la comunicación con el bot.
