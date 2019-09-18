@@ -43,7 +43,7 @@ client.on('message', async message => {
 			var msj = "";
 			var total = 0;
 			for (var i = 0; i < pedido[0]; i++) {
-				var rDado = Math.floor((Math.random() * (pedido[1] - 1)) + 1);
+				var rDado = Math.floor(Math.random() * pedido[1]) + 1;
 				
 				total += rDado;
 				
@@ -54,7 +54,7 @@ client.on('message', async message => {
 				}
 			}
 			
-			if (pedido[0] > 1) {
+			if (!(pedido[0] == 1 && pedido[2] == 0)) {
 				if (pedido[2] == 0) {
 					msj += " = " + total;
 				} else {
@@ -63,7 +63,7 @@ client.on('message', async message => {
 				}
 			}
 			
-			message.channel.send("```fix\n" + msj + "\n```");			
+			message.reply("```fix\n" + msj + "\n```");			
 		}
 	}
 });
