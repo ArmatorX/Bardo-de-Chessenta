@@ -17,6 +17,17 @@ client.on("ready", () => {
     client.user.setActivity(`Serving ${client.guilds.size} servers`);
 });
 
+client.on('message', async message => {
+	if (message.content.startsWith("!") {
+		var cantidad = message.content.substr(1,2);
+		var dado = message.content.substr(3,4);
+		
+		for (var i = 0; i < catidad; i++) {
+			message.channel.send(Math.random() % dado + 1);
+		}
+	}
+}
+
 /**
  * Se encarga de gestionar la comunicación con el bot.
  */
