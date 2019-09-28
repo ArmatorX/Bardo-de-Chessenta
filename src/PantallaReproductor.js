@@ -19,9 +19,9 @@ class PantallaReproductor {
 		// TODO: Cambiar este desastre ilegible.
 		// TODO: Cambiar la descripción del método.
 		return html.crearListaOrdenada(listaCanciones.map(cancion => 
-		html.crearVinculo(cancion.nombrePersonalizado, `http://localhost:8080/reproducir/id=${cancion.id}`) + ' ' +
-		html.crearVinculo('[Editar]', `http://localhost:8080/editar/id=${cancion.id}`) + ' ' +
-		html.crearVinculo('[Ver]', `http://localhost:8080/consultar/id=${cancion.id}`)));
+		html.crearVinculo(cancion.nombrePersonalizado, `/reproducir/id=${cancion.id}`) + ' ' +
+		html.crearVinculo('[Editar]', `/editar/id=${cancion.id}`) + ' ' +
+		html.crearVinculo('[Ver]', `/consultar/id=${cancion.id}`)));
 	}
 	
 	/**
@@ -32,9 +32,9 @@ class PantallaReproductor {
 		// TODO: Resolver el vínculo de reproducir.
 		// Creamos los botones.
 		var btnReproducir = html.crearVinculo('Reproducir', '');
-		var btnDetener = html.crearVinculo('Detener', 'http://localhost:8080/detener/');
-		var btnDesconectarBot = html.crearVinculo('Desconectar Bot', 'http://localhost:8080/desconectar/');
-		var btnAgregarCancion = html.crearVinculo('Agregar una canción', 'http://localhost:8080/registrar/');
+		var btnDetener = html.crearVinculo('Detener', '/detener/');
+		var btnDesconectarBot = html.crearVinculo('Desconectar Bot', '/desconectar/');
+		var btnAgregarCancion = html.crearVinculo('Agregar una canción', '/registrar/');
 		
 		// Creamos la lista de botones.
 		var listaBotones = [btnReproducir, btnDetener, btnDesconectarBot, btnAgregarCancion];

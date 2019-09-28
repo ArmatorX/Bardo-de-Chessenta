@@ -20,7 +20,7 @@ client.on("ready", () => {
 client.on('message', async message => {
 	if (message.content.startsWith("!")) {
 		var cadenaPedido = message.content.substr(1);
-		
+
 		var re = new RegExp("[0-9]*d[0-9]+(\\+[0-9]+||\\-[0-9]+)");
 		
 		if (re.test(cadenaPedido)) {

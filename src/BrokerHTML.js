@@ -112,16 +112,16 @@ class BrokerHTML {
 			case ModoFormulario.Registro:
 				// Creamos un objeto canción con los datos que queremos mostrar en cada campo.
 				var cancion = {
-					nombrePersonalizado: 'Un nombre que me sirva para encontrar la canción en la partida.',
-					ubicacion: 'La ruta del archivo/URL de la canción.',
-					nombreOriginal: 'Nombre real de la canción.',
-					origen: 'OST/Autor de la canción.',
-					descripcion: 'Una descripción detallada de la canción y el sentimiento que transmite.',
-					usos: 'Usos determinados de la canción en partidas específicas.',
+					nombrePersonalizado: '',
+					ubicacion: '',
+					nombreOriginal: '',
+					origen: '',
+					descripcion: '',
+					usos: '',
 					prioridad: '0'
 				}
 				
-				var strTags = 'Identificadores para encontrar una canción más rápido.';
+				var strTags = '';
 				
 				lblId = '';
 				txtId = '';
@@ -178,7 +178,7 @@ class BrokerHTML {
 				</head>
 				
 				<body>
-					<form action="http://localhost:8080/registrar/procesarDatos/" accept-charset="utf-8" method="post">
+					<form action="/registrar/procesarDatos/" accept-charset="utf-8" method="post">
 						${lblId} ${txtId}
 						${lblNombre} ${txtNombre}
 						${lblUbicacion} ${txtUbicacion}
