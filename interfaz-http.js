@@ -82,7 +82,7 @@ http.createServer(function (req, res) {
 		
 		req.on('end', () => {
 			id = abmCancion.registrarCancionDesdeFormulario(datos);
-			res.writeHead(301, { "Location": `http://localhost:8080/consultar/id=${id}`});
+			res.writeHead(301, { "Location": `/consultar/id=${id}`});
 			res.end();
 		});
 	} else {
