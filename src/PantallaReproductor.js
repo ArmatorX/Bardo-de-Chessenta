@@ -25,6 +25,24 @@ class PantallaReproductor {
 	}
 	
 	/**
+	 * Obtiene la lista de efectos guardados, y los formatea para mostrarlos por pantalla.
+	 * @returns {string} Cadena con formato HTML que se va a mostrar.
+	 */
+	crearListaEfectosHtml() {
+		// Obtener canciones guardadas.
+		var listaEfectos = gestor.obtenerEfectosGuardados();
+		
+		// Devolvemos la lista con formato html.
+		// TODO: Cambiar este desastre ilegible.
+		// TODO: Cambiar la descripción del método.
+		return html.crearListaOrdenada(listaEfectos.map(efecto => 
+		html.crearVinculo(efecto.nombrePersonalizado, `/reproducirEfecto/id=${efecto.id}`)));
+		//  + ' ' +
+		// html.crearVinculo('[Editar]', `/editar/id=${efecto.id}`) + ' ' +
+		// html.crearVinculo('[Ver]', `/consultar/id=${efecto.id}`)));
+	}
+	
+	/**
 	 * Crea una lista con links para navegar a través de la página, y dar los diferentes comandos al bot.
 	 * @returns {string} Cadena con formato HTML que se va a mostrar.
 	 */
@@ -49,6 +67,14 @@ class PantallaReproductor {
 	 */
 	reproducirCancion(id) {
 		gestor.reproducirCancion(id);
+	}
+	
+	/**
+	 * Reproduce un efecto de sonido a partir de un id.
+	 * @param {number} id - Id del efecto que se quiere reproducir.
+	 */
+	reproducirFX(id) {
+		gestor.reproducirFX(id);
 	}
 
 	/**

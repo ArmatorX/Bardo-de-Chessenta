@@ -30,6 +30,16 @@ http.createServer(function (req, res) {
 		
 		// Lo enviamos a la función del reproductor.
 		reproductor.reproducirCancion(parseInt(id, 10));
+	} else if (req.url.startsWith('/reproducirEfecto/')) {
+		// Reproducir una canción.
+		// Seteamos la pantalla a mostrar.
+		pantallaAMostrar = pantallas.PantallaReproductor;
+		
+		// Obtenemos el id de la canción.
+		var id = req.url.replace("/reproducirEfecto/id=", "");
+		
+		// Lo enviamos a la función del reproductor.
+		reproductor.reproducirFX(parseInt(id, 10));
 	} else if (req.url.startsWith('/detener/')) {
 		// Detener la reproducción actual.
 		// Seteamos la pantalla a mostrar.
@@ -89,6 +99,9 @@ http.createServer(function (req, res) {
 		if (pantallaAMostrar == pantallas.PantallaReproductor) {
 			// Mostramos la lista de canciones.
 			res.write(reproductor.crearListaCancionesHtml());
+			
+			// Mostramos la lista de efectos.
+			res.write(reproductor.crearListaEfectosHtml());
 			
 			// Mostramos la barra de comandos.
 			res.write(reproductor.crearBarraComandosHtml());

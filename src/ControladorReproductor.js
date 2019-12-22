@@ -1,5 +1,6 @@
 const config = require('../config.json').carpetas;
 const Cancion = require("./clases/Cancion");
+const Efecto = require("./clases/Efecto");
 const Bot = require('./Bot');
 const bot = new Bot();
 const fs = require('fs');
@@ -49,6 +50,25 @@ class ControladorReproductor {
 		
 		return canciones;
 	}
+	
+	/**
+	 * Esta función busca los efectos guardados y las devuelve en forma de un vector.
+	 * @returns {Cancion[]} Un vector de objetos {@link Cancion}.
+	 */
+	obtenerEfectosGuardados() {
+		var efectos = [];
+		var i = 0;
+		
+		do {
+			efectos[i] = new Efecto();
+			efectos[i].desmaterializar(i);
+			i ++;
+		} while (efectos[i - 1].id != undefined);
+		
+		efectos.pop();
+		
+		return efectos;
+	}
 
 	/**
 	 * Realiza el pedido al bot para que reproduzca una canción a partir del id.
@@ -66,7 +86,26 @@ class ControladorReproductor {
 		}
 		
 		// Enviamos la ruta de la canción al bot para que la reproduzca.
-		bot.joinAndPlay(cancion.rutaCompleta, cancion.esLocal);
+		bot.joinAndPlay(cancion.rutaCompleta, cancion.esLocal, false);
+	}
+	
+	/**
+	 * Realiza el pedido al bot para que reproduzca un efecto de sonido.
+	 * @param {number} id - El número que identifica al efecto de sonido que se desea reproducir.
+	 */
+	reproducirFX(id) {
+		// Obtenemos la ruta de la canción.
+		var cancion = new Cancion();
+		cancion.desmaterializar(id);
+		
+		// Verifica que la canción exista.
+		if (cancion.id == undefined) {
+			console.log("El id seleccionado no corresponde a ninguna cación. Se abortó la reproducción.");
+			return;
+		}
+		
+		// Enviamos la ruta de la canción al bot para que la reproduzca.
+		bot.joinAndPlay(cancion.rutaCompleta, cancion.esLocal, true);
 	}
 
 	/**

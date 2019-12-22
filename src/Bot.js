@@ -33,42 +33,44 @@ client.on('message', async message => {
 				pedido[0] = parseInt(pedido[0], 10);
 			}
 			
-			pedido[1] = parseInt(pedido[1], 10);
+			if (pedido[0] <= 100) {
+				pedido[1] = parseInt(pedido[1], 10);
 			
-			if (pedido[1] == 4 || pedido[1] == 6 || pedido[1] == 8 || pedido[1] == 10 || pedido[1] == 12 || pedido[1] == 20 || pedido[1] == 100) {
-				if (pedido[2] == undefined) {
-					pedido[2] = 0;
-				} else if (cadenaPedido.includes("-")) {
-					pedido[2] = - pedido[2];
-				} else {
-					pedido[2] = parseInt(pedido[2], 10);
-				}
-				
-				if (pedido[2] <= 100) {
-					var msj = "";
-					var total = 0;
-					for (var i = 0; i < pedido[0]; i++) {
-						var rDado = Math.floor(Math.random() * pedido[1]) + 1;
-						
-						total += rDado;
-						
-						if (i == pedido[0] - 1) {
-							msj += rDado;
-						} else {
-							msj += rDado + " + ";
-						}
+				if (pedido[1] == 4 || pedido[1] == 6 || pedido[1] == 8 || pedido[1] == 10 || pedido[1] == 12 || pedido[1] == 20 || pedido[1] == 100) {
+					if (pedido[2] == undefined) {
+						pedido[2] = 0;
+					} else if (cadenaPedido.includes("-")) {
+						pedido[2] = - pedido[2];
+					} else {
+						pedido[2] = parseInt(pedido[2], 10);
 					}
 					
-					if (!(pedido[0] == 1 && pedido[2] == 0)) {
-						if (pedido[2] == 0) {
-							msj += " = " + total;
-						} else {
-							total += pedido[2];
-							msj += " + [" + pedido[2] + "] = " + total;
+					if (pedido[2] <= 100) {
+						var msj = "";
+						var total = 0;
+						for (var i = 0; i < pedido[0]; i++) {
+							var rDado = Math.floor(Math.random() * pedido[1]) + 1;
+							
+							total += rDado;
+							
+							if (i == pedido[0] - 1) {
+								msj += rDado;
+							} else {
+								msj += rDado + " + ";
+							}
 						}
+						
+						if (!(pedido[0] == 1 && pedido[2] == 0)) {
+							if (pedido[2] == 0) {
+								msj += " = " + total;
+							} else {
+								total += pedido[2];
+								msj += " + [" + pedido[2] + "] = " + total;
+							}
+						}
+						
+						message.reply("```fix\n" + msj + "\n```");
 					}
-					
-					message.reply("```fix\n" + msj + "\n```");
 				}
 			}
 		}
@@ -83,13 +85,16 @@ class Bot {
 	 * Conecta el bot a un canal, e inmediatamente reproduce la canción de la url recibida (deteniendo cualquier otra reproducción anterior).
 	 * @param {string} url - La dirección donde el bot debe buscar el stream de audio.
 	 * @param {boolean} [esLocal=true] - Indica si es un archivo almacenado en el servidor. 
+	 * @param {boolean} [esFX=false] - Indica si es un efecto de sonido, y si lo es, no detiene la reproducción de lo que se está reproduciendo. 
 	 */
-	async joinAndPlay(url, esLocal) {
+	async joinAndPlay(url, esLocal, esFX) {
 		// Obtenemos la información del canal al que nos vamos a conectar.
 		channel = client.channels.get(config.voiceChannel);
 		
-		// Detenemos cualquier reproducción que se esté haciendo.
-		this.stop();
+		if (!esFX || esFX == undefined) {
+			// Detenemos cualquier reproducción que se esté haciendo.
+			this.stop();
+		}
 		
 		// Nos conectamos al canal de voz.
 		channel.join()
