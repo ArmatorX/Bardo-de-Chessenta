@@ -10,7 +10,7 @@
 		"opusscript": ">=0.0.7",
 		"package.json": "^2.0.1",
 		"winston": "^3.2.1",
-		"ytdl-core": "^0.29.5",
+		"ytdl-core": "^1.0.7",
 		"ws": ">=7.1.2"
 	}
 }
